@@ -1,0 +1,215 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #f3f3f3;
+}
+
+.center-viewport {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.form-login,
+.form-forgot-password {
+  background-color: rgb(255, 255, 255);
+  width: 450px;
+  min-height: 390px;
+  border-radius: 2px;
+  border: 10px solid gray;
+}
+
+.form-login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.form-login-main {
+  width: 100%;
+  padding: 20px;
+}
+
+.title {
+  font-size: 24px;
+  padding: 20px;
+  text-align: center;
+}
+
+.input {
+  /* margin-bottom: 15px; */
+  position: relative;
+}
+
+.input-username,
+.input-password {
+  padding: 8px 5px;
+  outline: none;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding-left: 40px;
+}
+
+.input-username::placeholder,
+.input-password::placeholder {
+  color: rgba(0, 0, 0, 0.3);
+}
+
+.input-username,
+.input-password {
+  width: 100%;
+}
+
+.input-icon {
+  position: absolute;
+  top: 12px;
+  left: 10px;
+}
+
+.input-warn {
+  font-size: 12px;
+  color: red;
+  padding: 5px 0 0 10px;
+}
+
+.btn-login {
+  width: 100%;
+  background-color: #64ce82;
+  color: white;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 3px;
+  min-height: 44px;
+}
+
+.forget-password {
+  background-color: #ecf0f1;
+  padding: 20px;
+  width: 100%;
+  text-align: center;
+
+  margin-top: 20px;
+}
+
+.forget-password button {
+  /* text-decoration: none; */
+  border: none;
+  color: #8d8d8d;
+  font-size: 14px;
+}
+
+.form-forgot-password {
+  display: none;
+}
+
+#login {
+  width: 200px;
+}
+
+.close {
+  position: absolute;
+  top: 5px;
+  right: 15px;
+  opacity: 0.5;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.hide {
+  display: none;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.d-block {
+  display: block;
+}
+
+@media screen and (max-width: 780px) {
+  .form-login,
+  .form-forgot-password {
+    width: 300px;
+  }
+}
+
+/* // loading  */
+#loader {
+  display: block;
+  position: relative;
+  left: 100px;
+  top: 0;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: #9370db;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+
+#loader:before {
+  content: "";
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  right: 5px;
+  bottom: 5px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: #ba55d3;
+  -webkit-animation: spin 3s linear infinite;
+  animation: spin 3s linear infinite;
+}
+
+#loader:after {
+  content: "";
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  right: 15px;
+  bottom: 15px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: #ff00ff;
+  -webkit-animation: spin 1.5s linear infinite;
+  animation: spin 1.5s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+
+  100% {
+    -webkit-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+
+  100% {
+    -webkit-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}

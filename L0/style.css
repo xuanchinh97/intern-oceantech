@@ -1,0 +1,23 @@
+body {
+  background-color: rgb(145, 118, 172);
+  color: #fff;
+  width: 1200px;
+  margin: 0 auto;
+}
+
+.title {
+  text-align: center;
+}
+ul {
+  list-style: decimal;
+}
+
+ul li {
+  padding-bottom: 10px;
+}
+
+li a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.4rem;
+}

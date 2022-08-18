@@ -1,0 +1,111 @@
+/* reset  */
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+a {
+  text-decoration: none;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+/* custom */
+
+:root {
+  --a1-width: 1000px;
+  --a1-height: 2000px;
+
+  --a2-width: calc(var(--a1-width) / 2);
+  --a2-height: 100px;
+
+  --a3-width: calc(var(--a1-width) / 2);
+  --a3-height: 100px;
+
+  --a4-width: calc(var(--a1-width) - 50px);
+  --a4-height: calc(var(--a1-height) - var(--a2-height) - var(--a3-height));
+
+  --a5-margin-left: 200px;
+  /* --a5-top: calc((var(--a1-height) - var(--a2-height)) / 2); */
+  --a5-top: calc(var(--a4-height) / 2);
+  --a5-width: calc(var(--a1-width) - var(--a5-margin-left) * 2);
+  --a5-height: 200px;
+
+  --a6-width: calc(var(--a1-width) / 5);
+  --a6-height: 100px;
+}
+
+.wrapper {
+  width: 100%;
+  border: 2px solid black;
+  border-bottom: 10px solid black;
+}
+.a1 {
+  width: var(--a1-width);
+  height: var(--a1-height);
+  border: 5px solid red;
+  position: relative;
+}
+
+.a2 {
+  width: var(--a2-width);
+  height: var(--a2-height);
+  border: 5px solid rgb(117, 10, 10);
+  position: fixed;
+  top: 0;
+  z-index: 1;
+}
+
+.a3 {
+  width: var(--a3-width);
+  height: var(--a3-height);
+  border: 5px solid rgb(233, 162, 8);
+  position: fixed;
+  bottom: 0;
+}
+
+.a4 {
+  width: var(--a4-width);
+  height: var(--a4-height);
+  border: 5px solid rgb(0, 140, 255);
+  position: relative;
+  margin-top: 100px;
+}
+
+.a5 {
+  width: var(--a5-width);
+  height: var(--a5-height);
+  position: sticky;
+  top: var(--a5-top);
+  margin-left: var(--a5-margin-left);
+  border: 5px solid rgb(245, 32, 216);
+}
+
+.a6 {
+  width: var(--a6-width);
+  height: var(--a6-height);
+  border: 5px solid rgb(226, 212, 18);
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  z-index: 4;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media screen and (max-width: 780px) {
+  :root {
+    --a1-width: 1000px / 2;
+  }
+}
