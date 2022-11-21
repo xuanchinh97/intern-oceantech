@@ -173,42 +173,42 @@ class UserEditorDialog extends Component {
       //     }
       //   }
 
-        if (id) {
-          saveUser({
-            ...this.state,
-          }).then((data) => {
-            this.setState({ isView: true, loading: false });
-            let healthOrgIdList = [];
-            for (let i = 0; i < this.state.selectedHealthOrg.length; i++) {
-              const listHealthOrgId = this.state.selectedHealthOrg[i];
-              healthOrgIdList.push(listHealthOrgId.id);
-            }
-            saveHealthOrgByUser(data.data.id, healthOrgIdList).then((response) => {
+      if (id) {
+        saveUser({
+          ...this.state,
+        }).then((data) => {
+          this.setState({ isView: true, loading: false });
+          let healthOrgIdList = [];
+          for (let i = 0; i < this.state.selectedHealthOrg.length; i++) {
+            const listHealthOrgId = this.state.selectedHealthOrg[i];
+            healthOrgIdList.push(listHealthOrgId.id);
+          }
+          saveHealthOrgByUser(data.data.id, healthOrgIdList).then((response) => {
 
-            });
-            toast.success(t("mess_edit"));
-            // this.props.handleOKEditClose();
           });
-        } else {
-          saveUser({
-            ...this.state,
-          }).then((data) => {
-            this.setState({...this.state, isView: true, loading: false });
-            let healthOrgIdList = [];
-            for (let i = 0; i < this.state.selectedHealthOrg.length; i++) {
-              const listHealthOrgId = this.state.selectedHealthOrg[i];
-              healthOrgIdList.push(listHealthOrgId.id);
-            }
-            saveHealthOrgByUser(data.data.id, healthOrgIdList).then((response) => {
+          toast.success(t("mess_edit"));
+          // this.props.handleOKEditClose();
+        });
+      } else {
+        saveUser({
+          ...this.state,
+        }).then((data) => {
+          this.setState({ ...this.state, isView: true, loading: false });
+          let healthOrgIdList = [];
+          for (let i = 0; i < this.state.selectedHealthOrg.length; i++) {
+            const listHealthOrgId = this.state.selectedHealthOrg[i];
+            healthOrgIdList.push(listHealthOrgId.id);
+          }
+          saveHealthOrgByUser(data.data.id, healthOrgIdList).then((response) => {
 
-            });
-            this.state.id = data.data.id;
-            this.setState({...this.state, isView: true, loading: false });
-            toast.success(t("mess_add"));
-            // this.props.handleOKEditClose();
           });
-        }
-    }).catch(()=>{
+          this.state.id = data.data.id;
+          this.setState({ ...this.state, isView: true, loading: false });
+          toast.success(t("mess_add"));
+          // this.props.handleOKEditClose();
+        });
+      }
+    }).catch(() => {
       this.setState({ loading: false });
     });
   };
@@ -330,48 +330,50 @@ class UserEditorDialog extends Component {
       page * rowsPerPage + rowsPerPage
     );
     let columns = [
-      { title: t("Name"), field: "name", width: "150",
-      headerStyle: {
-        minWidth:"250px",
-        paddingLeft: "10px",
-        paddingRight: "0px",
+      {
+        title: t("Name"), field: "name", width: "150",
+        headerStyle: {
+          minWidth: "250px",
+          paddingLeft: "10px",
+          paddingRight: "0px",
+        },
+        cellStyle: {
+          minWidth: "250px",
+          paddingLeft: "10px",
+          paddingRight: "0px",
+          textAlign: "left",
+        },
       },
-      cellStyle: {
-        minWidth:"250px",
-        paddingLeft: "10px",
-        paddingRight: "0px",
-        textAlign: "left",
-      }, 
-     },
-      { title: t("Code"), field: "code", align: "left", width: "150",
-      headerStyle: {
-        minWidth:"250px",
-        paddingLeft: "10px",
-        paddingRight: "0px",
+      {
+        title: t("Code"), field: "code", align: "left", width: "150",
+        headerStyle: {
+          minWidth: "250px",
+          paddingLeft: "10px",
+          paddingRight: "0px",
+        },
+        cellStyle: {
+          minWidth: "250px",
+          paddingLeft: "10px",
+          paddingRight: "0px",
+          textAlign: "left",
+        },
       },
-      cellStyle: {
-        minWidth:"250px",
-        paddingLeft: "10px",
-        paddingRight: "0px",
-        textAlign: "left",
-      }, 
-    },
       {
         title: t("Action"),
         field: "custom",
         align: "left",
         width: "250",
         headerStyle: {
-          minWidth:"250px",
+          minWidth: "250px",
           paddingLeft: "10px",
           paddingRight: "0px",
         },
         cellStyle: {
-          minWidth:"250px",
+          minWidth: "250px",
           paddingLeft: "10px",
           paddingRight: "0px",
           textAlign: "left",
-        }, 
+        },
         cellStyle: { whiteSpace: "nowrap" },
         render: rowData => (
           <MaterialButton
@@ -393,12 +395,12 @@ class UserEditorDialog extends Component {
           <CircularProgress className="buttonProgress" size={24} />
         </div>
         <DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">
-        <span className="mb-20 styleColor"> {(id ? t("update") : t("Add")) + " " + t("user.title")} </span>
-        <IconButton style={{ position: "absolute", right: "10px", top: "10px" }} onClick={() => handleClose()}><Icon color="error"
-              title={t("close")}>
-              close
-        </Icon>
-        </IconButton>
+          <span className="mb-20 styleColor"> {(id ? t("update") : t("Add")) + " " + t("user.title")} </span>
+          <IconButton style={{ position: "absolute", right: "10px", top: "10px" }} onClick={() => handleClose()}><Icon color="error"
+            title={t("close")}>
+            close
+          </Icon>
+          </IconButton>
         </DialogTitle>
         <ValidatorForm ref="form" onSubmit={this.handleFormSubmit} style={{
           overflowY: "auto",
@@ -518,7 +520,7 @@ class UserEditorDialog extends Component {
                       variant="outlined"
                       size="small"
                     />}
-                    
+
                 />)}
               </Grid>
 
@@ -585,13 +587,13 @@ class UserEditorDialog extends Component {
                                     visibility_off
                                   </Icon>
                                 ) : (
-                                    <Icon
-                                      color="primary"
-                                      title={t("hide_password")}
-                                    >
-                                      visibility
-                                    </Icon>
-                                  )}
+                                  <Icon
+                                    color="primary"
+                                    title={t("hide_password")}
+                                  >
+                                    visibility
+                                  </Icon>
+                                )}
                               </IconButton>
                             </InputAdornment>
                           )
@@ -627,13 +629,13 @@ class UserEditorDialog extends Component {
                                     visibility_off
                                   </Icon>
                                 ) : (
-                                    <Icon
-                                      color="primary"
-                                      title={t("hide_password")}
-                                    >
-                                      visibility
-                                    </Icon>
-                                  )}
+                                  <Icon
+                                    color="primary"
+                                    title={t("hide_password")}
+                                  >
+                                    visibility
+                                  </Icon>
+                                )}
                               </IconButton>
                             </InputAdornment>
                           )

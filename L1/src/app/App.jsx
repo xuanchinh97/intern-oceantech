@@ -11,7 +11,7 @@ import "../styles/nprogress.css";
 import { loadProgressBar } from "axios-progress-bar";
 
 import routes from "./RootRoutes";
-import { Store } from "./redux/Store";
+import  {Store}  from "./redux/Store";
 import Auth from "./auth/Auth";
 import EgretLayout from "./EgretLayout/EgretLayout";
 import AuthGuard from "./auth/AuthGuard";

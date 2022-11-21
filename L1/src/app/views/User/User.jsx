@@ -343,8 +343,8 @@ class User extends Component {
               options={{
                 selection: false,
                 actionsColumnIndex: -1,
-                paging: false,
-                search: false,
+                paging: true,
+                search: true,
                 rowStyle: (rowData, index) => ({
                   backgroundColor: (index % 2 === 1) ? '#EEE' : '#FFF',
                 }), 
@@ -355,7 +355,7 @@ class User extends Component {
                   color:'#fff',
                 },
                 padding: 'dense',
-                toolbar: false
+                toolbar: true
               }}
               localization={{
                 body: {

@@ -4,11 +4,11 @@ import { Breadcrumb, ConfirmationDialog } from 'egret'
 import MaterialTable, { MTableToolbar } from 'material-table'
 import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
-import { useDispatch, useSelector } from 'react-redux'
+import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.min.css'
-import { deleteEmployeeAction, searchEmployeeAction } from '../../redux/actions/EmployeeActions'
 import EmployeeDialog from './EmployeeDialog'
+import { deleteEmployee, searchEmployee } from './EmployeeService'
 
 toast.configure({
   autoClose: 2000,
@@ -30,10 +30,16 @@ const LightTooltip = withStyles((theme) => ({
 }))(Tooltip)
 
 const MaterialButton = ({ item, onSelect }) => {
+  const { t } = useTranslation();
 
   return (
     <div className='none_wrap'>
-      <LightTooltip>
+      <LightTooltip
+        title={t("general.editIcon")}
+        placement="right-end"
+        enterDelay={300}
+        leaveDelay={200}
+      >
         <IconButton
           size="small"
           onClick={() => onSelect(item, 0)}
@@ -42,7 +48,12 @@ const MaterialButton = ({ item, onSelect }) => {
         </IconButton>
       </LightTooltip>
 
-      <LightTooltip>
+      <LightTooltip
+        title={t("general.delete")}
+        placement="right-end"
+        enterDelay={300}
+        leaveDelay={200}
+      >
         <IconButton
           size="small"
           onClick={() => onSelect(item, 1)}
@@ -53,31 +64,73 @@ const MaterialButton = ({ item, onSelect }) => {
     </div>
   )
 }
+let n = 0
 
 function Employee() {
+  console.log("re-render", n++);
 
   const [id, setId] = useState("")
   const [item, setItem] = useState({})
+  const [itemList, setItemList] = useState([])
+  const [itemListDelete, setItemListDelete] = useState([])
   const [shouldEditor, setShouldEditor] = useState(false)
   const [shouldDelete, setShouldDelete] = useState(false)
+  const [shouldDeleteAll, setShouldDeleteAll] = useState(false)
 
-  const dispatch = useDispatch();
-
-  const employeeList = useSelector(state => state.employee.employeeList)
-  const response = useSelector(state => state.employee.response)
+  const { t } = useTranslation();
 
   useEffect(() => {
-    dispatch(searchEmployeeAction())
+    updateData()
   }, [])
 
+  const updateData = () => {
+    let searchObject = {}
+    searchEmployee(searchObject)
+      .then(({ data }) => {
+        setItemList([...data.data])
+      })
+      .catch(err => console.log(err))
+  }
+
   const handleDialogClose = () => {
+    setShouldDeleteAll(false)
     setShouldDelete(false)
     setShouldEditor(false)
+    updateData()
   }
 
   const handleAddButtonClick = (item) => {
     setItem(item)
     setShouldEditor(true)
+  }
+
+  const handleDeleteButtonClick = () => {
+    if (!itemListDelete || itemListDelete.length === 0) {
+      toast.warning(t('general.noti_check_data'))
+    } else {
+      setShouldDeleteAll(true)
+    }
+  }
+
+  const handleDeleteAll = () => {
+
+    for (let i = 0; i < itemListDelete.length; i++) {
+      deleteEmployee(itemListDelete[i].id)
+        .then((res) => {
+          if (res && res.data.code === 200) {
+            toast.success(t("DeleteSuccess"));
+          } else {
+            toast.error(res.data.message);
+          }
+        })
+        .catch(err => {
+          toast.error(t('staff.noti.used'))
+          console.log(err)
+        })
+    }
+
+    setItemListDelete([])
+    handleDialogClose()
   }
 
   const handleDeleteIconClick = (id) => {
@@ -86,23 +139,35 @@ function Employee() {
   }
 
   const handleDeleteItem = () => {
-    dispatch(deleteEmployeeAction(id))
-    handleDialogClose()
+    deleteEmployee(id)
+      .then(() => {
+        updateData()
+        handleDialogClose()
+        toast.success(t('staff.noti.deleteSuccess'))
+      })
+      .catch((err) => {
+        console.log(err)
+        toast.error(t('staff.noti.used'))
+      })
   }
 
-  let TitlePage = "Quản lý nhân viên";
+  let TitlePage = t("staff.title");
 
   let columns = [
-    { title: "Mã nhân viên", field: "code", width: "150" },
     {
-      title: "Tên nhân viên", field: "name",
+      title: t("general.index"), field: "tableData.id", width: "50",
+      headerStyle: { padding: "0px" }, cellStyle: { padding: "0px" }
+    },
+    { title: t("staff.code"), field: "code", width: "150" },
+    {
+      title: t("staff.name"), field: "name",
       cellStyle: { minWidth: 150, maxWidth: '100%' }
     },
-    { title: "Tuổi", field: "age", width: "150" },
-    { title: "Điện thoại", field: "phone", width: "150" },
-    { title: "Email", field: "email", width: "150" },
+    { title: t("staff.age"), field: "age", width: "150" },
+    { title: t("staff.phone"), field: "phone", width: "150" },
+    { title: t("staff.email"), field: "email", width: "150" },
     {
-      title: "Thao tác",
+      title: t("general.action"),
       field: "custom",
       align: "left",
       width: "120",
@@ -136,8 +201,8 @@ function Employee() {
 
       <div className='mb-sm-30'>
         <Breadcrumb routeSegments={[
-          { name: "Quản lý", path: "/directory/apartment" },
-          { name: "Quản lý nhân viên" }
+          { name: t("Dashboard.manage"), path: "/directory/apartment" },
+          { name: t("staff.title") }
         ]}
         />
       </div>
@@ -145,49 +210,75 @@ function Employee() {
       <Grid container spacing={2} justify="space-between">
         <Grid item md={3} xs={12}>
           <Button
-            className="align-bottom mr-16"
+            className="align-bottom mr-16 mb-16"
             variant="contained"
             color="primary"
-            onClick={() => handleAddButtonClick(null)}
+            onClick={() => handleAddButtonClick({})}
           >
-            Thêm mới
+            {t("general.add")}
           </Button>
+          <Button
+            className="align-bottom mr-16 mb-16"
+            variant="contained"
+            color="primary"
+            onClick={handleDeleteButtonClick}
+          >
+            {t("general.delete")}
+          </Button>
+
+          {shouldDeleteAll && (
+            <ConfirmationDialog
+              open={shouldDeleteAll}
+              onConfirmDialogClose={handleDialogClose}
+              onYesClick={handleDeleteAll}
+              title={t("confirm")}
+              text={t("DeleteAllConfirm")}
+              Yes={t("general.yes")}
+              No={t("general.no")}
+            />
+          )}
         </Grid>
 
         <Grid item xs={12}>
           <div>
             {shouldEditor && (
               <EmployeeDialog
+                t={t}
                 handleClose={handleDialogClose}
                 open={shouldEditor}
                 item={item}
-                response={response}
               />
             )}
 
             {shouldDelete && (
               <ConfirmationDialog
-                title="Xác nhận"
+                title={t('general.confirm')}
                 open={shouldDelete}
                 onConfirmDialogClose={handleDialogClose}
                 onYesClick={handleDeleteItem}
-                text="Bạn chắc chắn muốn xóa"
-                Yes="Yes"
-                No="No"
+                text={t('DeleteConfirm')}
+                Yes={t('general.yes')}
+                No={t('general.no')}
               />
             )}
           </div>
 
           <MaterialTable
-            title="Nhân viên"
-            data={employeeList}
+            title={t("staff.title")}
+            data={itemList}
             columns={columns}
             localization={{
               body: {
-                emptyDataSourceMessage: "Không có bản ghi nào",
+                emptyDataSourceMessage: `${t(
+                  "general.emptyDataMessageTable"
+                )}`,
+              },
+              toolbar: {
+                nRowsSelected: `${t("general.selects")}`,
               },
             }}
             options={{
+              selection: true,
               actionsColumnIndex: -1,
               paging: true,
               pageSize: 10,
@@ -212,6 +303,9 @@ function Employee() {
             }}
             components={{
               Toolbar: (props) => <MTableToolbar {...props} />,
+            }}
+            onSelectionChange={(rows) => {
+              setItemListDelete([...rows])
             }}
           />
         </Grid>

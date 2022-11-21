@@ -49,17 +49,9 @@ export const navigations = [
         isVisible:true,
         path: ConstantList.ROOT_PATH + "list/menu",
         icon: "keyboard_arrow_right",
-        // children: [
-        //   {
-        //     name: "staff.title",
-        //     isVisible:true,
-        //     path: ConstantList.ROOT_PATH + "list/employee",
-        //     icon: "keyboard_arrow_right"
-        //   }
-        // ]
       },
       {
-            name: "staff.title",
+            name: "manage.employees",
             isVisible:true,
             path: ConstantList.ROOT_PATH + "list/employee",
             icon: "keyboard_arrow_right"

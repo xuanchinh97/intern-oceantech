@@ -1,22 +1,25 @@
-import axiosMiddleware from "redux-axios-middleware";
-import thunk from "redux-thunk";
-import { createStore, applyMiddleware, compose } from "redux";
-import RootReducer from "./reducers/RootReducer";
-import HttpService from "app/services/HttpService";
-const initialState = {};
+import HttpService from "app/services/HttpService"
+import axiosMiddleware from "redux-axios-middleware"
+import { createStore, applyMiddleware, compose } from 'redux'
+import createSagaMiddleware from 'redux-saga'
+import RootReducer from "./reducers/RootReducer"
+import rootSaga from "./sagas/rootSaga"
+import thunk from "redux-thunk"
 
-//const middlewares = [thunk];
-const middlewares = [
+const sagaMiddleware = createSagaMiddleware()
+
+const middleWares = [
   thunk,
-  //routerMiddleware(browserHistory),
+  sagaMiddleware,
   axiosMiddleware(HttpService.getAxiosClient())
-];
+]
 export const Store = createStore(
   RootReducer,
-  initialState,
-  compose(
-    applyMiddleware(...middlewares)
-    // applyMiddleware(...middlewares),
-    // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-  )
-);
+  applyMiddleware(...middleWares),
+  // compose(
+  //   applyMiddleware(...middleWares),
+  //   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  // )
+)
+
+sagaMiddleware.run(rootSaga)

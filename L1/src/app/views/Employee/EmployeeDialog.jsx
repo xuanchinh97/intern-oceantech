@@ -1,19 +1,13 @@
-import React, { Component } from "react";
-import {
-  Dialog, Button, Grid, DialogActions, Paper, DialogTitle, DialogContent, MenuItem, TextField,
-} from "@material-ui/core";
-import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
-import Draggable from "react-draggable";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Icon, IconButton, MenuItem, Paper } from '@material-ui/core';
+import { saveEmployeeAction, updateEmployeeAction } from 'app/redux/actions/EmployeeActions';
+import React, { useEffect, useState } from 'react';
+import Draggable from 'react-draggable';
+import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator';
+import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
+import '../../../styles/views/_style.scss';
+import { getCommune, getDistrict, getProvince } from './EmployeeService';
 
-import {
-  saveEmployee,
-  updateEmployee,
-  getCommune,
-  getProvince,
-  getDistrict,
-} from "./EmployeeService";
 
 toast.configure({
   autoClose: 2000,
@@ -21,7 +15,7 @@ toast.configure({
   limit: 3,
 });
 
-function PaperComponent(props) {
+const PaperComponent = (props) => {
   return (
     <Draggable
       handle="#draggable-dialog-title"
@@ -29,279 +23,270 @@ function PaperComponent(props) {
     >
       <Paper {...props} />
     </Draggable>
-  );
+  )
 }
 
-class EmployeeDialog extends Component {
+function EmployeeDialog(props) {
 
-  constructor(props) {
-    super(props);
-    this.handleChange = this.handleChange.bind(this);
-    let { item } = this.props;
-    this.state = {
-      ...item,
-      listCommune: [],
-      listDistrict: [],
-      listProvince: [],
-    };
+  const { handleClose, open, item, response } = props
+
+  const [employee, setEmployee] = useState(() => item === null ? {} : item)
+  const [provinceList, setProvinceList] = useState([])
+  const [districtList, setDistrictList] = useState([])
+  const [communeList, setCommuneList] = useState([])
+  const [communeListFilter, setCommuneListFilter] = useState([])
+
+  const dispatch = useDispatch();
+
+  if (response.code === 200) {
+    handleClose()
   }
 
-  handleChange = (event) => {
-    this.setState({ [event.target.name]: event.target.value });
-  };
+  const handleChange = (e) => {
+    let value = e.target.value
+    let name = e.target.name
+    setEmployee({ ...employee, [name]: value, })
+  }
 
-  handleFormSubmit = () => {
+  const getCommuneByDistrict = (e) => {
+    let districtId = e.target.value.id
+    let communeListNew = communeList.filter(commune => commune.district.id === districtId)
+    setCommuneListFilter(communeListNew)
+    handleChange(e)
+  }
 
-    let { t, handleClose } = this.props;
-    let employeeObject = { ...this.state }
-
-    if (this.state.id) {
-      updateEmployee(employeeObject)
-        .then((res) => {
-          if (res.data.code === 200) {
-            toast.success(t("staff.noti.updateSuccess"));
-            handleClose();
-          } else {
-            toast.error(res.data.message);
-          }
-        });
+  const handleFormSubmit = () => {
+    if (employee.id) {
+      dispatch(updateEmployeeAction(employee))
     } else {
-      saveEmployee(employeeObject)
-        .then((res) => {
-          if (res.data.code === 200) {
-            toast.success(t("staff.noti.addSuccess"));
-            handleClose();
-          } else {
-            toast.error(res.data.message);
-          }
-        })
-    };
+      dispatch(saveEmployeeAction(employee))
+    }
   }
 
-  getDistrictCommuneProvince() {
+  const getDistrictCommuneProvince = () => {
+    getProvince()
+      .then(({ data }) => setProvinceList([...data.data]))
+      .catch(err => console.log(err))
     getDistrict()
-      .then(({ data }) => this.setState({ listDistrict: [...data.data] }))
+      .then(({ data }) => setDistrictList([...data.data]))
       .catch(err => console.log(err))
     getCommune()
-      .then(({ data }) => this.setState({ listCommune: [...data.data] }))
-      .catch(err => console.log(err))
-    getProvince()
-      .then(({ data }) => this.setState({ listProvince: [...data.data] }))
+      .then(({ data }) => setCommuneList([...data.data]))
       .catch(err => console.log(err))
   }
 
-  componentDidMount() {
-    this.getDistrictCommuneProvince();
-  }
+  useEffect(() => {
+    getDistrictCommuneProvince()
+  }, [])
 
-  render() {
-    let {
-      id,
-      name,
-      code,
-      phone,
-      email,
-      age,
-      commune,
-      district,
-      province,
-      listCommune,
-      listDistrict,
-      listProvince,
-    } = this.state;
+  return (
+    <Dialog
+      open={open}
+      PaperComponent={PaperComponent}
+      maxWidth="sm"
+      fullWidth
+    >
+      <DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">
+        <span className="mb-20 styleColor"> {(employee.id ? "Cập nhật" : "Thêm mới") + " Nhân viên"} </span>
+        <IconButton style={{ position: "absolute", right: "10px", top: "10px" }} onClick={() => handleClose()}>
+          <Icon color="error" title="close">close</Icon>
+        </IconButton>
+      </DialogTitle>
 
-    let { open, handleClose, t } = this.props;
+      <ValidatorForm onSubmit={handleFormSubmit}>
+        <DialogContent dividers >
+          <Grid className="mb-16" container spacing={1}>
 
-    return (
-      <Dialog
-        open={open}
-        PaperComponent={PaperComponent}
-        maxWidth="sm"
-        fullWidth
-      >
-        <DialogTitle
-          style={{ cursor: "move", paddingBottom: "0px" }}
-          id="draggable-dialog-title"
-        >
-          <h4 className="">{id ? t("general.update") : t("ReceivingAsset.addNew")}</h4>
-        </DialogTitle>
-
-        <ValidatorForm ref="form" onSubmit={this.handleFormSubmit}>
-          <DialogContent>
-            <Grid className="" container spacing={2}>
-
-              <Grid item sm={12} xs={12}>
-                <TextValidator className="w-100 "
-                  label={
-                    <span>
-                      {t("staff.code")}
-                    </span>
-                  }
-                  required
-                  onChange={this.handleChange}
-                  type="text"
-                  name="code"
-                  value={code}
-                  inputProps={{ maxLength: 10 }}
-                  validators={["matchRegexp:([a-zA-Z0-9]{6,10})$"]}
-                  errorMessages={[t("staff.required.code")]}
-                />
-              </Grid>
-
-              <Grid item sm={12} xs={12}>
-                <TextValidator className="w-100 "
-                  label={
-                    <span>
-                      {t("staff.name")}
-                    </span>
-                  }
-                  required
-                  onChange={this.handleChange}
-                  type="text"
-                  name="name"
-                  value={name}
-                  inputProps={{ maxLength: 25 }}
-                  validators={['matchRegexp:([a-zA-Z])$']}
-                  errorMessages={[t("staff.required.name")]}
-                />
-              </Grid>
-
-
-              <Grid item sm={12} xs={12}>
-                <TextValidator className="w-100 "
-                  label={
-                    <span>
-                      {t("staff.age")}
-                    </span>
-                  }
-                  required
-                  onChange={this.handleChange}
-                  type="text"
-                  name="age"
-                  value={age}
-                  validators={['matchRegexp:(^[0-9]{1,2})$']}
-                  errorMessages={[t("staff.required.age")]}
-                />
-              </Grid>
-
-              <Grid item sm={12} xs={12}>
-                <TextValidator className="w-100 "
-                  label={
-                    <span>
-                      {t("staff.phone")}
-                    </span>
-                  }
-                  required
-                  onChange={this.handleChange}
-                  type="number"
-                  name="phone"
-                  value={phone}
-                  validators={['matchRegexp:(^[0-9]{10})$']}
-                  errorMessages={[t("staff.required.phone")]}
-                />
-              </Grid>
-
-              <Grid item sm={12} xs={12}>
-                <TextValidator className="w-100 "
-                  label={
-                    <span>
-                      {t("staff.email")}
-                    </span>
-                  }
-                  required
-                  onChange={this.handleChange}
-                  type="email"
-                  name="email"
-                  value={email}
-                  validators={['isEmail']}
-                  errorMessages={[t("staff.required.email")]}
-                />
-              </Grid>
-
-              <Grid item sm={4} xs={4}>
-                <TextField
-                  required
-                  select
-                  defaultValue=""
-                  name="province"
-                  label="Tỉnh"
-                  value={province}
-                  onChange={this.handleChange}
-                  helperText="Please select your province"
-                >
-                  {listProvince.map((province) => (
-                    <MenuItem key={province.id} value={province}>
-                      {province.name}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </Grid>
-
-              <Grid item sm={4} xs={4}>
-                <TextField
-                  required
-                  select
-                  defaultValue=""
-                  name="district"
-                  label="Huyện"
-                  value={district}
-                  onChange={this.handleChange}
-                  helperText="Please select your district"
-                >
-                  {listDistrict.map((district) => (
-                    <MenuItem key={district.id} value={district}>
-                      {district.name}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </Grid>
-
-              <Grid item sm={4} xs={4}>
-                <TextField
-                  required
-                  select
-                  defaultValue=""
-                  label="Xã"
-                  name="commune"
-                  value={commune}
-                  onChange={this.handleChange}
-                  helperText="Please select your commune"
-                >
-                  {listCommune.map((commune) => (
-                    <MenuItem key={commune.id} value={commune}>
-                      {commune.name}
-                    </MenuItem>
-                  ))}
-                </TextField>
-
-              </Grid>
+            <Grid item lg={6} md={6} sm={12} xs={12}>
+              <TextValidator className="w-100 mb-16"
+                label={
+                  <span className="font">
+                    <span style={{ color: "red" }}> * </span>Mã nhân viên
+                  </span>
+                }
+                onChange={handleChange}
+                type="text"
+                name="code"
+                value={employee.code}
+                inputProps={{ maxLength: 10 }}
+                validators={["required", "matchRegexp:([a-zA-Z0-9]{6,10})$"]}
+                errorMessages={["Trường này là bắt buộc", "mã nhân viên từ 6-10 kí tự không chứa ký tự đặc biệt"]}
+                variant="outlined"
+                size="small"
+              />
             </Grid>
-          </DialogContent>
 
-          <DialogActions>
-            <div className="flex flex-space-between flex-middle mt-12">
-              <Button
-                variant="contained"
-                className="mr-12"
-                color="secondary"
-                onClick={handleClose}
+            <Grid item lg={6} md={6} sm={12} xs={12}>
+              <TextValidator className="w-100 mb-16"
+                label={
+                  <span className="font">
+                    <span style={{ color: "red" }}> * </span>Tên nhân viên
+                  </span>
+                }
+                onChange={handleChange}
+                type="text"
+                name="name"
+                value={employee.name}
+                inputProps={{ maxLength: 25 }}
+                validators={["required", 'matchRegexp:([a-zA-Z])$']}
+                errorMessages={["Trường này là bắt buộc", "tên không chứa số và ký tự đặc biệt"]}
+                variant="outlined"
+                size="small"
+              />
+            </Grid>
+
+            <Grid item lg={6} md={6} sm={12} xs={12}>
+              <TextValidator className="w-100 mb-16"
+                label={
+                  <span className="font">
+                    <span style={{ color: "red" }}> * </span>Tuổi
+                  </span>
+                }
+                onChange={handleChange}
+                type="text"
+                name="age"
+                value={employee.age}
+                validators={["required", 'matchRegexp:(^[0-9]{1,2})$']}
+                errorMessages={["Trường này là bắt buộc", "tuổi tối đa 2 chữ số"]}
+                variant="outlined"
+                size="small"
+              />
+            </Grid>
+
+            <Grid item lg={6} md={6} sm={12} xs={12}>
+              <TextValidator className="w-100 mb-16"
+                label={
+                  <span className="font">
+                    <span style={{ color: "red" }}> * </span>Điện thoại
+                  </span>
+                }
+                onChange={handleChange}
+                type="text"
+                name="phone"
+                value={employee.phone}
+                validators={["required", 'matchRegexp:(^[0-9]{10})$']}
+                errorMessages={["Trường này là bắt buộc", "số điện thoại gồm 10 chữ số"]}
+                variant="outlined"
+                size="small"
+              />
+            </Grid>
+
+            <Grid item lg={12} md={12} sm={12} xs={12}>
+              <TextValidator className="w-100 mb-16"
+                label={
+                  <span className="font">
+                    <span style={{ color: "red" }}> * </span>Email
+                  </span>
+                }
+                onChange={handleChange}
+                type="email"
+                name="email"
+                value={employee.email}
+                validators={["required", 'isEmail']}
+                errorMessages={["Trường này là bắt buộc", "email chưa đúng định dạng"]}
+                variant="outlined"
+                size="small"
+              />
+            </Grid>
+
+            <Grid item lg={4} md={4} sm={4} xs={12}>
+              <TextValidator
+                className="w-100 mb-16"
+                select
+                name="province"
+                label={
+                  <span className="font">
+                    <span style={{ color: "red" }}> * </span>Tỉnh
+                  </span>
+                }
+                value={employee.province}
+                onChange={handleChange}
+                validators={["required"]}
+                errorMessages={["Trường này là bắt buộc"]}
+                variant="outlined"
+                size="small"
               >
-                {t("general.cancel")}
-              </Button>
-              <Button
-                variant="contained"
-                style={{ marginRight: "15px" }}
-                color="primary"
-                type="submit"
+                {provinceList && provinceList.map((province) => (
+                  <MenuItem key={province.id} value={province}>
+                    {province.name}
+                  </MenuItem>
+                ))}
+              </TextValidator>
+            </Grid>
+
+            <Grid item lg={4} md={4} sm={4} xs={12}>
+              <TextValidator
+                className="w-100 mb-16"
+                select
+                name="district"
+                label={
+                  <span className="font">
+                    <span style={{ color: "red" }}> * </span>Huyện
+                  </span>
+                }
+                value={employee.district}
+                onChange={getCommuneByDistrict}
+                validators={["required"]}
+                errorMessages={["Trường này là bắt buộc"]}
+                variant="outlined"
+                size="small"
               >
-                {t("general.save")}
-              </Button>
-            </div>
-          </DialogActions>
-        </ValidatorForm>
-      </Dialog>
-    );
-  }
+                {districtList && districtList.map((district) => (
+                  <MenuItem key={district.id} value={district}>
+                    {district.name}
+                  </MenuItem>
+                ))}
+              </TextValidator>
+            </Grid>
+
+            <Grid item lg={4} md={4} sm={4} xs={12}>
+              <TextValidator
+                className="w-100 mb-16"
+                select
+                label={
+                  <span className="font">
+                    <span style={{ color: "red" }}> * </span>Xã
+                  </span>
+                }
+                name="commune"
+                value={employee.commune}
+                onChange={handleChange}
+                validators={["required"]}
+                errorMessages={["Trường này là bắt buộc"]}
+                variant="outlined"
+                size="small"
+              >
+                {communeListFilter && communeListFilter.map((commune) => (
+                  <MenuItem key={commune.id} value={commune}>
+                    {commune.name}
+                  </MenuItem>
+                ))}
+              </TextValidator>
+            </Grid>
+
+          </Grid>
+        </DialogContent>
+
+        <DialogActions spacing={4} className="flex flex-end flex-middle mt-12">
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={handleClose}
+          >
+            Cancel
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            type="submit"
+          >
+            Save
+          </Button>
+        </DialogActions>
+
+      </ValidatorForm>
+    </Dialog>
+  )
 }
 
-export default EmployeeDialog;
+export default EmployeeDialog
