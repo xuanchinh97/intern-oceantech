@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách sản phẩm</title>
+    <link rel="shortcut icon" href="https://xuanchinh97.cf/favicon.jpg" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+    <link rel="stylesheet" href="./assets/css/styles.css">
+    <script defer type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script defer src="./assets/js/app.js"></script>
+    <script defer src="./assets/js/common.js"></script>
+    <script defer src="./assets/js/validator.js"></script>
+    <script defer src="./assets/js/products.js"></script>
+    <script defer src="./assets/js/cart.js"></script>
+    <script defer src="./assets/js/formPayment.js"></script>
+    <script defer src="./assets/js/order.js"></script>
+
+</head>
+
+<body>
+    <header class="header">
+        <nav class="header__nav">
+            <a href="#" class="header__nav__home" onclick="openProduct()">Trang chủ</a>
+            <a href="#" class="header__nav__order" onclick="openOrder()">Đơn hàng</a>
+            <a href="#">Liên Hệ</a>
+            <a href="#">Giới thiệu</a>
+            <span class="header__nav__search">
+                <input class="header__nav__search__input" type="text" placeholder="Tìm kiếm sản phẩm">
+                <span class="header__nav__search__icon"><i class=" fa fa-search"></i></span>
+            </span>
+            <a href="#" class="header__nav__cart" onclick="openCart()">
+                <i class="fa fa-cart-shopping"></i>
+                <span>Giỏ hàng </span>
+                <span class="header__nav__cart__number"></span>
+            </a>
+        </nav>
+    </header>
+    <!-- END HEADER  -->
+
+    <main class="container">
+
+        <section class="products">
+        </section>
+        <!-- END PRODUCTS  -->
+
+        <div class="cart">
+            <div class="cart__title">Danh sách sản phẩm</div>
+            <div class="cart__container">
+                <table id="cart__table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Tên sản phẩm</th>
+                            <th>Giá tiền</th>
+                            <th>Số lượng</th>
+                            <th>Thành tiền</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody class="cart__products"> </tbody>
+                </table>
+                <div class="cart__payment"> </div>
+            </div>
+            <div class="cart__empty"> </div>
+        </div>
+        </div>
+        <!-- -END CART- -->
+
+        <div class="payment modal">
+            <form class="payment__form modal-content">
+                <div class="form-group ">
+                    <label for="firstName" class="payment-title">Họ và tên <span class="require">*</span></label>
+                    <div class="customer__fullName">
+                        <input required type="text" id="firstName" placeholder="Nhập tên..." name="firstName">
+                        <input required type="text" id="lastName" placeholder="Nhập họ..." name="lastName">
+                    </div>
+                    <span class=" form-message validate__name"></span>
+                </div>
+                <div class="form-group ">
+                    <label for="email" class="payment-title">Email <span class="require">*</span></label>
+                    <input required type="email" id="email" placeholder="Nhập địa chỉ email..." name="email">
+                    <span class=" form-message validate__email"></span>
+                </div>
+                <div class="form-group ">
+                    <label for="phone" class="payment-title">Số điện thoại <span class="require">*</span></label>
+                    <input required type="text" id="phone" placeholder="Nhập số điện thoại..." name="phone">
+                    <span class=" form-message validate__phone"></span>
+                </div>
+                <div class="form-group ">
+                    <label for="province" class="payment-title">Địa chỉ <span class="require">*</span></label>
+                    <select name="tỉnh thành phố" id="province" required> </select>
+                    <select name=" quận huyện" id="district" required> </select>
+                    <select name="xã phường" id="ward" required> </select>
+                    <input name="home" id="home" type="text" maxlength="50" required placeholder="Nhập số nhà...">
+                    <span class=" form-message validate__home"></span>
+                </div>
+                <div class="form-group ">
+                    <label for="message" class="payment-title">Lời nhắn </label>
+                    <textarea name="message" maxlength="200" id="message" placeholder="Nhập lời nhắn..." cols="30"
+                        rows="4"></textarea>
+                    <span class=" form-message validate__message"></span>
+                </div>
+
+                <button type="button" class="payment__btnCancel">Hủy</button>
+                <button class="payment__btnConfirm">Xác nhận</button>
+            </form>
+        </div>
+        <!-- -END PAYMENT FORM- -->
+
+        <div class="order">
+            <div class="order__title">Danh sách đơn hàng</div>
+            <div class="order__container">
+                <div class="order__header grid-col-7">
+                    <div>Mã đơn hàng</div>
+                    <div>Họ tên khách hàng</div>
+                    <div>Ngày mua</div>
+                    <div>Số mặt hàng</div>
+                    <div>Số lượng</div>
+                    <div>Giá tiền</div>
+                    <div>Trả hàng</div>
+                </div>
+                <div class="order__body"> </div>
+            </div>
+            <div class="order__empty"> </div>
+        </div>
+        <!-- -END ORDER LIST- -->
+    </main>
+    <!-- END MAIN  -->
+
+</body>
+
+</html>

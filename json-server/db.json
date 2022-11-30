@@ -1,0 +1,269 @@
+{
+  "listData": [
+    {
+      "id": 1,
+      "name": "áo ba lỗ nam",
+      "imageUrl": "./assets/img/product1.jpg",
+      "price": 29000,
+      "amount": 31,
+      "description": "áo ba lỗ xịn xò"
+    },
+    {
+      "id": 2,
+      "name": "áo thun kẻ sọc",
+      "imageUrl": "./assets/img/product2.jpg",
+      "price": 59000,
+      "amount": 149,
+      "description": "áo thun kẻ xọc hot trend"
+    },
+    {
+      "id": 3,
+      "name": "quần jean đen trơn",
+      "imageUrl": "./assets/img/product3.jpg",
+      "price": 129000,
+      "amount": 140,
+      "description": "quần jean đen trơn chất lượng"
+    },
+    {
+      "id": 4,
+      "name": "quần jean rách gối",
+      "imageUrl": "./assets/img/product4.jpg",
+      "price": 139000,
+      "amount": 111,
+      "description": "quần jean đen trơn rách gối chất lượng"
+    },
+    {
+      "id": 5,
+      "name": "áo polo nam đẹp ",
+      "imageUrl": "./assets/img/product5.jpg",
+      "price": 119000,
+      "amount": 102,
+      "description": "áo polo nam đẹp chất cá sấu phong cách trẻ trung"
+    },
+    {
+      "id": 6,
+      "name": "áo khoác thể thao 3 sọc",
+      "imageUrl": "./assets/img/product6.jpg",
+      "price": 129000,
+      "amount": 90,
+      "description": "áo khoác thể thao 3 sọc chất thun nỉ dày dặn"
+    },
+    {
+      "id": 7,
+      "name": "quần baggy nam cao cấp",
+      "imageUrl": "./assets/img/product7.jpg",
+      "price": 119000,
+      "amount": 75,
+      "description": "quần baggy nam cao cấp unisex hot trend"
+    },
+    {
+      "id": 8,
+      "name": "áo sơ mi nam trắng",
+      "imageUrl": "./assets/img/product8.jpg",
+      "price": 79000,
+      "amount": 102,
+      "description": "áo sơ mi nam trắng hàn quốc"
+    },
+    {
+      "id": 9,
+      "name": "bộ đồ nỉ nam",
+      "imageUrl": "./assets/img/product9.jpg",
+      "price": 99000,
+      "amount": 119,
+      "description": "bộ đồ nỉ nam chất da cá siêu hot"
+    },
+    {
+      "id": 10,
+      "name": "áo khoác HOODIE nam",
+      "imageUrl": "./assets/img/product10.jpg",
+      "price": 249000,
+      "amount": 119,
+      "description": "áo khoác HOODIE siêu ngầu nam"
+    },
+    {
+      "id": 11,
+      "name": "áo len cao cấp",
+      "imageUrl": "./assets/img/product11.jpg",
+      "price": 249000,
+      "amount": 135,
+      "description": "áo len cao cấp"
+    },
+    {
+      "id": 12,
+      "name": "áo blazer nam",
+      "imageUrl": "./assets/img/product12.jpg",
+      "price": 249000,
+      "amount": 119,
+      "description": "áo blazer nam"
+    },
+    {
+      "id": 13,
+      "name": "flannel vàng xanh",
+      "imageUrl": "./assets/img/product13.jpg",
+      "price": 249000,
+      "amount": 119,
+      "description": "flannel vàng xanh"
+    },
+    {
+      "id": 14,
+      "name": "quần âu ống rộng",
+      "imageUrl": "./assets/img/product14.jpg",
+      "price": 249000,
+      "amount": 130,
+      "description": "quần âu ống rộng"
+    },
+    {
+      "id": 15,
+      "name": "quần jogger trẻ trung",
+      "imageUrl": "./assets/img/product15.jpg",
+      "price": 249000,
+      "amount": 120,
+      "description": "quần jogger trẻ trung"
+    }
+  ],
+  "listOrder": [
+    {
+      "id": 1669831294935,
+      "createAt": "1/12/2022",
+      "customerInfo": {
+        "fullName": "Trịnh Xuân Chinh",
+        "email": "admin@gmail.com",
+        "phone": "0968528230",
+        "address": "quận 7, 14575, 375, 37"
+      },
+      "message": "4 tháng, kỷ niệm khó quên cùng những người anh em.\ngoodbye oceantech!!!",
+      "typeProductsNumber": 14,
+      "amount": 15,
+      "totalMoney": 2175000,
+      "products": [
+        {
+          "id": 1,
+          "name": "áo ba lỗ nam",
+          "imageUrl": "./assets/img/product1.jpg",
+          "price": 29000,
+          "amount": 2,
+          "description": "áo ba lỗ xịn xò",
+          "totalMoney": 58000
+        },
+        {
+          "id": 2,
+          "name": "áo thun kẻ sọc",
+          "imageUrl": "./assets/img/product2.jpg",
+          "price": 59000,
+          "amount": 1,
+          "description": "áo thun kẻ xọc hot trend",
+          "totalMoney": 59000
+        },
+        {
+          "id": 3,
+          "name": "quần jean đen trơn",
+          "imageUrl": "./assets/img/product3.jpg",
+          "price": 129000,
+          "amount": 1,
+          "description": "quần jean đen trơn chất lượng",
+          "totalMoney": 129000
+        },
+        {
+          "id": 4,
+          "name": "quần jean rách gối",
+          "imageUrl": "./assets/img/product4.jpg",
+          "price": 139000,
+          "amount": 1,
+          "description": "quần jean đen trơn rách gối chất lượng",
+          "totalMoney": 139000
+        },
+        {
+          "id": 5,
+          "name": "áo polo nam đẹp ",
+          "imageUrl": "./assets/img/product5.jpg",
+          "price": 119000,
+          "amount": 1,
+          "description": "áo polo nam đẹp chất cá sấu phong cách trẻ trung",
+          "totalMoney": 119000
+        },
+        {
+          "id": 6,
+          "name": "áo khoác thể thao 3 sọc",
+          "imageUrl": "./assets/img/product6.jpg",
+          "price": 129000,
+          "amount": 1,
+          "description": "áo khoác thể thao 3 sọc chất thun nỉ dày dặn",
+          "totalMoney": 129000
+        },
+        {
+          "id": 7,
+          "name": "quần baggy nam cao cấp",
+          "imageUrl": "./assets/img/product7.jpg",
+          "price": 119000,
+          "amount": 1,
+          "description": "quần baggy nam cao cấp unisex hot trend",
+          "totalMoney": 119000
+        },
+        {
+          "id": 8,
+          "name": "áo sơ mi nam trắng",
+          "imageUrl": "./assets/img/product8.jpg",
+          "price": 79000,
+          "amount": 1,
+          "description": "áo sơ mi nam trắng hàn quốc",
+          "totalMoney": 79000
+        },
+        {
+          "id": 9,
+          "name": "bộ đồ nỉ nam",
+          "imageUrl": "./assets/img/product9.jpg",
+          "price": 99000,
+          "amount": 1,
+          "description": "bộ đồ nỉ nam chất da cá siêu hot",
+          "totalMoney": 99000
+        },
+        {
+          "id": 10,
+          "name": "áo khoác HOODIE nam",
+          "imageUrl": "./assets/img/product10.jpg",
+          "price": 249000,
+          "amount": 1,
+          "description": "áo khoác HOODIE siêu ngầu nam",
+          "totalMoney": 249000
+        },
+        {
+          "id": 11,
+          "name": "áo len cao cấp",
+          "imageUrl": "./assets/img/product11.jpg",
+          "price": 249000,
+          "amount": 1,
+          "description": "áo len cao cấp",
+          "totalMoney": 249000
+        },
+        {
+          "id": 12,
+          "name": "áo blazer nam",
+          "imageUrl": "./assets/img/product12.jpg",
+          "price": 249000,
+          "amount": 1,
+          "description": "áo blazer nam",
+          "totalMoney": 249000
+        },
+        {
+          "id": 13,
+          "name": "flannel vàng xanh",
+          "imageUrl": "./assets/img/product13.jpg",
+          "price": 249000,
+          "amount": 1,
+          "description": "flannel vàng xanh",
+          "totalMoney": 249000
+        },
+        {
+          "id": 15,
+          "name": "quần jogger trẻ trung",
+          "imageUrl": "./assets/img/product15.jpg",
+          "price": 249000,
+          "amount": 1,
+          "description": "quần jogger trẻ trung",
+          "totalMoney": 249000
+        }
+      ],
+      "createdAt": 1669831295026
+    }
+  ]
+}
